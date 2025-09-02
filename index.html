@@ -1,137 +1,96 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Script Minta Maaf — Interaktif</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Maaf Sayangg…</title>
   <style>
-    :root{--bg1:#0f172a;--bg2:#0b1220;--accent:#ff6b6b;--muted:#94a3b8}
-    *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
-    body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#e6eef8}
-    .card{width:100%;max-width:760px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:16px;padding:28px;box-shadow:0 12px 40px rgba(2,6,23,0.7);position:relative;overflow:hidden}
-    h1{margin:0 0 6px;font-size:26px;display:flex;align-items:center;gap:12px}
-    .emoji{font-size:34px;display:inline-block;transform-origin:center}
-    p.lead{margin:8px 0 18px;color:var(--muted)}
-
-    /* message box */
-    .message{background:rgba(255,255,255,0.03);padding:18px;border-radius:12px;min-height:120px;display:flex;align-items:center;justify-content:center;text-align:center}
-    .msg-text{font-size:16px;line-height:1.6;max-width:640px}
-
-    /* typing effect */
-    .typing{border-right:2px solid rgba(230,238,248,0.6);white-space:pre-wrap;overflow:hidden}
-
-    /* buttons */
-    .controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-    button{background:transparent;border:1px solid rgba(255,255,255,0.08);color:inherit;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:600}
-    .primary{background:linear-gradient(90deg,#ff9a9e,var(--accent));color:#072034;border:none}
-
-    /* pulsing heart */
-    .heart{display:inline-block;color:var(--accent);font-size:20px;margin-left:6px;animation:pulse 1.1s infinite}
-    @keyframes pulse{0%{transform:scale(.92)}50%{transform:scale(1.06)}100%{transform:scale(.92)}}
-
-    /* confetti */
-    .confetti{position:absolute;inset:0;pointer-events:none}
-    .confetti div{position:absolute;width:8px;height:12px;border-radius:2px;opacity:0;transform:translateY(-20px);animation:fall 1.6s linear forwards}
-    @keyframes fall{to{opacity:1;transform:translateY(520px) rotate(540deg)}}
-
-    /* footer */
-    .footer{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:13px;color:var(--muted)}
-
-    /* small responsive */
-    @media(max-width:560px){h1{font-size:20px}.card{padding:18px}}
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #f8b195, #f67280);
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      text-align: center;
+      overflow: hidden;
+    }
+    .container {
+      max-width: 380px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    .message {
+      margin-bottom: 20px;
+      font-size: 18px;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeIn 3s forwards;
+    }
+    .heart {
+      font-size: 34px;
+      opacity: 0;
+      animation: heartbeat 1s infinite alternate, showUp 2s 2s forwards;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    @keyframes showUp {
+      to { opacity: 1; }
+    }
+    @keyframes heartbeat {
+      from { transform: scale(1); }
+      to { transform: scale(1.3); }
+    }
+    .confetti {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .confetti span {
+      position: absolute;
+      width: 8px;
+      height: 10px;
+      border-radius: 4px;
+      opacity: 0;
+      animation: drop 2s linear forwards;
+    }
+    @keyframes drop {
+      to { opacity: 1; transform: translateY(600px) rotate(360deg); }
+    }
   </style>
 </head>
 <body>
-  <div class="card" id="card">
-    <h1><span class="emoji">🥺</span> Script Minta Maaf <span class="heart">❤</span></h1>
-    <p class="lead">Silakan pakai, edit, atau kirimkan—ada tombol untuk copy & kirim WhatsApp. Tekan <em>Minta Maaf</em> untuk efek mengetik + confetti.</p>
-
-    <div class="message">
-      <div class="msg-text typing" id="msg">Klik tombol untuk menampilkan pesan minta maaf interaktif...</div>
-    </div>
-
-    <div class="controls">
-      <button id="btnApologize" class="primary">Minta Maaf</button>
-      <button id="btnCopy">Salin Pesan</button>
-      <button id="btnWA">Kirim ke WhatsApp</button>
-      <button id="btnReset">Reset</button>
-    </div>
-
-    <div class="footer">
-      <div>Customizable — tambahkan nama pasangan, foto, atau bahasa.</div>
-      <div>Mode: <strong id="mode">interaktif</strong></div>
-    </div>
-
-    <div class="confetti" id="confettiArea" aria-hidden="true"></div>
+  <div class="container">
+    <p class="message">
+      Maaf ya sayangg…<br>
+      aku komunikasi buruk,<br>
+      lama balas chatmu,<br>
+      kurang perhatian sama kamu.<br><br>
+      Kita LDR dulu, tapi aku janji<br>
+      akan usahakan segera ke sana.<br>
+      Maafin pacarmu yang bodoh ini ya… ❤️
+    </p>
+    <div class="heart">I LOVE YOU SAYANGG 💕</div>
   </div>
+  <div class="confetti" id="confetti"></div>
 
   <script>
-    const template = `Maaf ya sayang...\n\nKomunikasi aku memang buruk. Aku sering lama balas chat kamu dan aku kurang perhatian sama kamu.\n\nMaaf yahh kita harus LDR dulu sementara, tapi aku akan usahakan sekuat tenaga supaya bisa ke sana.\n\nMaafin pacarmu yang bodoh ini ya...\nI love you sayangg ❤️`;
-
-    const btn = document.getElementById('btnApologize');
-    const msg = document.getElementById('msg');
-    const btnCopy = document.getElementById('btnCopy');
-    const btnWA = document.getElementById('btnWA');
-    const btnReset = document.getElementById('btnReset');
-    const confettiArea = document.getElementById('confettiArea');
-
-    function typeText(el, text, speed=22){
-      el.textContent = '';
-      let i = 0;
-      return new Promise(res=>{
-        const t = setInterval(()=>{
-          el.textContent += text.charAt(i);
-          i++;
-          if(i>=text.length){ clearInterval(t); res(); }
-        }, speed);
-      });
+    // generate confetti warna-warni
+    const confettiArea = document.getElementById('confetti');
+    for (let i = 0; i < 40; i++) {
+      const el = document.createElement('span');
+      el.style.left = Math.random() * 100 + '%';
+      el.style.background = ['#ffd1dc','#ff9a9e','#ffafbd','#ffe4e1','#ff6f91'][Math.floor(Math.random()*5)];
+      el.style.animationDelay = `${Math.random()*2}s`;
+      confettiArea.appendChild(el);
+      setTimeout(() => el.remove(), 3000);
     }
-
-    function spawnConfetti(n=20){
-      confettiArea.innerHTML='';
-      const colors = ['#ff6b6b','#ffd93d','#6be4ff','#80ff9b','#d6b3ff'];
-      for(let i=0;i<n;i++){
-        const d = document.createElement('div');
-        d.style.left = Math.random()*100 + '%';
-        d.style.top = (Math.random()*10)+'%';
-        d.style.background = colors[Math.floor(Math.random()*colors.length)];
-        d.style.width = (6+Math.random()*10)+'px';
-        d.style.height = (10+Math.random()*14)+'px';
-        d.style.animationDelay = (Math.random()*0.2)+'s';
-        confettiArea.appendChild(d);
-        setTimeout(()=>d.remove(),1800);
-      }
-    }
-
-    btn.addEventListener('click', async ()=>{
-      document.getElementById('mode').textContent = 'mengirim...';
-      await typeText(msg, template, 24);
-      spawnConfetti(24);
-      document.getElementById('mode').textContent = 'siap dikirim';
-    });
-
-    btnCopy.addEventListener('click', async ()=>{
-      try{
-        await navigator.clipboard.writeText(template);
-        btnCopy.textContent = 'Tersalin ✓';
-        setTimeout(()=>btnCopy.textContent='Salin Pesan',1200);
-      }catch(e){
-        alert('Tidak bisa menyalin otomatis — izinkan clipboard atau salin manual.');
-      }
-    });
-
-    btnWA.addEventListener('click', ()=>{
-      const encoded = encodeURIComponent(template);
-      // buka WhatsApp Web / WA mobile
-      const url = `https://wa.me/?text=${encoded}`;
-      window.open(url,'_blank');
-    });
-
-    btnReset.addEventListener('click', ()=>{
-      msg.textContent = 'Klik tombol untuk menampilkan pesan minta maaf interaktif...';
-      document.getElementById('mode').textContent = 'interaktif';
-      confettiArea.innerHTML='';
-    });
   </script>
 </body>
 </html>
